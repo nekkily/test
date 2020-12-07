@@ -1,0 +1,86 @@
+1 (JavaScript). На странице есть абзац, кнопка 1 и кнопка 2. Напишите код, который по нажатию сначала на кнопку 1, а потом на кнопку 2 скрывает абзац, если он раскрыт, и раскрывает, если он скрыт.
+
+<html>
+<head>
+	<script src="js/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+
+<p id="text" class="open">Text</p>
+
+<button id="btn1">Кнопка 1</button>
+<button id="btn2">Кнопка 2</button>
+
+
+<script language="JavaScript">
+    $("#btn1").click(function() {
+		document.querySelector("#text").classList.add("touched");
+	});
+	
+	$("#btn2").click(function() {
+		if(document.querySelector("#text").classList[1] == "touched") {
+			document.querySelector("#text").classList.remove("touched");
+			if(document.querySelector("#text").classList[0] == "open") {
+				$("#text").hide();
+				document.querySelector("#text").classList.remove("open");
+				document.querySelector("#text").classList.add("close");
+			}
+			else {
+				$("#text").show();
+				document.querySelector("#text").classList.remove("close");
+				document.querySelector("#text").classList.add("open");
+				
+			}
+			
+		}
+	});
+</script>
+
+</html>
+
+
+
+2 (PHP). Будем считать, что строка является "корректным" php-кодом, если в ней правильно расставлены фигурные скобки (что внутри и снаружи скобок - неважно).
+
+<?php
+
+class CheckCorrectString
+{
+    public function __construct($str) {
+		
+		$count_correct = 0;
+		$flag = true;
+		
+		for($i = 0; $i < mb_strlen($str); ++$i) {
+			if(($i == 0 && $str[$i] == '}') || ($i == mb_strlen($str) - 1 && $str[$i] == '{')) {
+				$flag = false;
+				break;
+			}
+			else {
+				if($str[$i] == '{')
+					++$count_correct;
+				if($str[$i] == '}')
+					--$count_correct;
+			}
+		}
+		if($flag && $count_correct == 0)
+			$flag = true;
+		else
+			$flag = false;
+			
+		var_dump($flag);
+    }
+}
+
+$a = new CheckCorrectString("{{lajkdhf{adfa}{}adfasdfadf{}}}");
+$b = new CheckCorrectString("{{lajkdhf{adfa");
+$c = new CheckCorrectString("lajkdhfadfa");
+$d = new CheckCorrectString("");
+$e = new CheckCorrectString("}{}");
+$f = new CheckCorrectString("{}{");
+
+?>
+
+
+3 (MySQL). Имеется таблица логов пользователей (логин пользователя, id записи, дата-время, событие). Напишите sql-запрос, который выводит логин и последнее событие каждого пользователя.
+SELECT a.login, a.event FROM log a WHERE a.date = (SELECT MAX(date) FROM log WHERE login = a.login)
