@@ -52,15 +52,14 @@ class CheckCorrectString
 		$flag = true;
 		
 		for($i = 0; $i < mb_strlen($str); ++$i) {
-			if(($i == 0 && $str[$i] == '}') || ($i == mb_strlen($str) - 1 && $str[$i] == '{')) {
+			if($str[$i] == '{')
+				++$count_correct;
+			if($str[$i] == '}')
+				--$count_correct;
+				
+			if($count_correct < 0) {
 				$flag = false;
 				break;
-			}
-			else {
-				if($str[$i] == '{')
-					++$count_correct;
-				if($str[$i] == '}')
-					--$count_correct;
 			}
 		}
 		if($flag && $count_correct == 0)
@@ -77,7 +76,7 @@ $b = new CheckCorrectString("{{lajkdhf{adfa");
 $c = new CheckCorrectString("lajkdhfadfa");
 $d = new CheckCorrectString("");
 $e = new CheckCorrectString("}{}");
-$f = new CheckCorrectString("{}{");
+$f = new CheckCorrectString("{}}{{}");
 
 ?>
 
